@@ -1,0 +1,113 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: #f5f7fa;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #222;
+}
+
+.contenedor {
+    max-width: 900px;
+    margin: 50px auto;
+    padding: 20px;
+}
+
+.form {
+    max-width: 500px;
+    margin: auto;
+    background: #ffffff;
+    border-radius: 18px;
+    padding: 32px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
+}
+
+form {
+    width: 100%;
+}
+
+label {
+    display: block;
+    margin: 22px 0 8px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
+}
+
+input[type="text"],
+input[type="number"],
+textarea,
+select {
+    width: 100%;
+    display: block;
+    padding: 12px 14px;
+    border: 1px solid #d6d6d6;
+    border-radius: 10px;
+    font-size: 16px;
+    font-family: inherit;
+    color: #222;
+    background: #fff;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus,
+textarea:focus,
+select:focus {
+    outline: none;
+    border-color: #5b5ce2;
+    box-shadow: 0 0 0 3px rgba(91, 92, 226, 0.15);
+}
+
+textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+input[type="submit"] {
+    width: 100%;
+    margin-top: 28px;
+    padding: 12px 16px;
+    border: none;
+    border-radius: 10px;
+    background: #5b5ce2;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+}
+
+input[type="submit"]:hover {
+    background: #4849c9;
+}
+
+input[type="submit"]:active {
+    transform: scale(0.98);
+}
+
+p {
+    width: 100%;
+    word-wrap: break-word;
+}
+
+span {
+    display: inline-block;
+}
+
+[v-cloak] {
+    display: none;
+}
+
+@media (max-width: 600px) {
+    .contenedor {
+        margin: 20px auto;
+        padding: 15px;
+    }
+
+    .form {
+        padding: 24px;
+    }
+}
