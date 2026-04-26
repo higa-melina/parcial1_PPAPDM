@@ -1,21 +1,25 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-	<meta charset="UTF-8" />
-	<title>Biblioteca de películas</title>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Biblioteca de películas</title>
 
-	<link rel="stylesheet" href="css/estilos.css">
-	<script src="scripts/vue3.js"></script>
-	
-</head>
+    <link rel="stylesheet" href="css/estilos.css">
+    <script src="scripts/vue3.js"></script>
+  </head>
 
-<body>
-	<div class="contenedor" v-cloak>
-        
-		<h1>{{titulo}}</h1>
-		<mi-componente></mi-componente>
-	</div>
+  <body>
+    <div class="layout">
+      <div class="left"></div>
 
-	<script src="scripts/app.js"></script>
-</body>
+      <div class="right">
+        <div class="contenedor" v-cloak>
+          <h1>{{titulo}}</h1>
+          <mi-componente></mi-componente>
+        </div>
+      </div>
+    </div>
+
+    <script src="scripts/app.js"></script>
+  </body>
 </html>

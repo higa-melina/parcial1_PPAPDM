@@ -57,18 +57,18 @@ app.component('mi-componente', {
         <label>Titulo</label>
         <input type="text" v-model="form_data.titulo" />
 
-<label>Géneros</label>
+        <label>Géneros</label>
 
-<div class="chips">
-  <label class="chip" v-for="genero in generos">
-    <input
-      type="checkbox"
-      v-model="form_data.generos"
-      v-bind:value="genero.dato"
-    >
-    <span>{{genero.texto}}</span>
-  </label>
-</div>
+        <div class="chips">
+        <label class="chip" v-for="genero in generos">
+            <input
+            type="checkbox"
+            v-model="form_data.generos"
+            v-bind:value="genero.dato"
+            >
+            <span>{{genero.texto}}</span>
+        </label>
+        </div>
 
         <label>Productora</label>
         <select v-model="form_data.productora">
