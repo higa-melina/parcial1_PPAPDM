@@ -11,7 +11,7 @@ app.component('mi-componente', {
         return {
             form_data: {
                 titulo: "",
-                genero: "",
+                generos: [],
                 productora: "",
                 estado: "",
                 comentario: "",
@@ -26,7 +26,8 @@ app.component('mi-componente', {
                 { texto: 'Suspenso', dato: 'suspenso', disabled: false },
                 { texto: 'Romance', dato: 'romance', disabled: false },
                 { texto: 'Documental', dato: 'documental', disabled: false },
-                { texto: 'Musical', dato: 'musical', disabled: false }
+                { texto: 'Musical', dato: 'musical', disabled: false },
+                { texto: 'Otro', dato: 'otro', disabled: false }
             ],
             productoras: [
                 { texto: 'Warner Bros', dato: 'warner', disabled: false },
@@ -44,46 +45,77 @@ app.component('mi-componente', {
                 { texto: 'Visto', dato: 'visto', disabled: false },
                 { texto: 'Viendo ahora', dato: 'viendo', disabled: false },
                 { texto: 'Quiero ver', dato: 'quiero', disabled: false },
-            ]
+            ],
+            arr: [],
         }
 
 
     },
     template: `<div class="form">
-		<form v-on:submit.prevent>
-		<label>Titulo</label>
-			<input type="text" v-model.lazy.number="form_data.titulo"/>
 
-		<label>Genero</label>
- 			<select v-model="form_data.genero">
-			<option v-for="genero in generos" v-bind:value="genero.dato">
-   				 {{genero.texto}}
-  		</option>
-		</select>
+        <form v-on:submit.prevent="enviar">
+        <label>Titulo</label>
+        <input type="text" v-model="form_data.titulo" />
+
+<label>Géneros</label>
+
+<div class="chips">
+  <label class="chip" v-for="genero in generos">
+    <input
+      type="checkbox"
+      v-model="form_data.generos"
+      v-bind:value="genero.dato"
+    >
+    <span>{{genero.texto}}</span>
+  </label>
+</div>
 
         <label>Productora</label>
- 			<select v-model="form_data.productora">
-			<option v-for="productora in productoras" v-bind:value="productora.dato">
-   				 {{productora.texto}}
-  		</option>
-		</select>
+        <select v-model="form_data.productora">
+            <option v-for="productora in productoras" v-bind:value="productora.dato">
+            {{productora.texto}}
+            </option>
+        </select>
 
-                <label>Estado</label>
- 			<select v-model="form_data.estado">
-			<option v-for="estado in estados" v-bind:value="estado.dato">
-   				 {{estado.texto}}
-  		</option>
-		</select>
+        <label>Estado</label>
+        <select v-model="form_data.estado">
+            <option v-for="estado in estados" v-bind:value="estado.dato">
+            {{estado.texto}}
+            </option>
+        </select>
 
         <label>Comentario</label>
-				<textarea v-model.trim.lazy="form_data.comentario"></textarea>
-		</form>
+        <textarea v-model.trim="form_data.comentario"></textarea>
+
+        <input type="submit" value="Enviar" />
+        </form>
+
+        <div v-if="arr.length > 0">
+        <h2>Datos</h2>
+        <ul>
+            <li v-for="item in arr">
+            {{ item.titulo }}, {{form_data.generos}}, {{ item.productora }}, {{
+            item.estado }}, {{ item.comentario }}
+            </li>
+        </ul>
+        </div>
 
 	</div>`,
+    methods: {
+        enviar: function () {
+            let nuevoObj = {
+                titulo: this.form_data.titulo,
+                genero: this.form_data.genero,
+                productora: this.form_data.productora,
+                estado: this.form_data.estado,
+                comentario: this.form_data.comentario,
+            }
 
+            this.arr.push(nuevoObj);
+            console.log(nuevoObj);
+        }
+    },
 
 });
-
-
 
 app.mount('.contenedor');
