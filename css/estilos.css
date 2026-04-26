@@ -4,7 +4,6 @@
 
 body {
     margin: 0;
-    background: #f5f7fa;
     font-family: Arial, Helvetica, sans-serif;
     color: #222;
 }
@@ -12,6 +11,7 @@ body {
 .layout {
     display: flex;
     min-height: 100vh;
+        background: #f5f7fa;
 }
 
 .left {

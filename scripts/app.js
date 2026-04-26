@@ -2,12 +2,13 @@ const app = Vue.createApp({
     data() {
         return {
             titulo: "Biblioteca de películas",
+            peliculas: []
         }
     }
 });
 
-app.component('mi-componente', {
-    data: function () {
+app.component('mi-formulario', {
+    data() {
         return {
             form_data: {
                 titulo: "",
@@ -15,107 +16,123 @@ app.component('mi-componente', {
                 productora: "",
                 estado: "",
                 comentario: "",
-
             },
             generos: [
-                { texto: 'Acción', dato: 'accion', disabled: false },
-                { texto: 'Aventura', dato: 'aventura', disabled: false },
-                { texto: 'Comedia', dato: 'comedia', disabled: false },
-                { texto: 'Drama', dato: 'drama', disabled: false },
-                { texto: 'Terror', dato: 'terror', disabled: false },
-                { texto: 'Suspenso', dato: 'suspenso', disabled: false },
-                { texto: 'Romance', dato: 'romance', disabled: false },
-                { texto: 'Documental', dato: 'documental', disabled: false },
-                { texto: 'Musical', dato: 'musical', disabled: false },
-                { texto: 'Otro', dato: 'otro', disabled: false }
+                { texto: 'Acción', dato: 'accion' },
+                { texto: 'Aventura', dato: 'aventura' },
+                { texto: 'Comedia', dato: 'comedia' },
+                { texto: 'Drama', dato: 'drama' },
+                { texto: 'Terror', dato: 'terror' },
+                { texto: 'Suspenso', dato: 'suspenso' },
+                { texto: 'Romance', dato: 'romance' },
+                { texto: 'Documental', dato: 'documental' },
+                { texto: 'Musical', dato: 'musical' },
+                { texto: 'Otro', dato: 'otro' }
             ],
             productoras: [
-                { texto: 'Warner Bros', dato: 'warner', disabled: false },
-                { texto: 'Universal Pictures', dato: 'universal_pictures', disabled: false },
-                { texto: '20th Century', dato: '20th_century', disabled: false },
-                { texto: 'Columbia Pictures', dato: 'columbia_pictures', disabled: false },
-                { texto: 'Disney', dato: 'disney', disabled: false },
-                { texto: 'Pixar Animation', dato: 'pixar', disabled: false },
-                { texto: 'Marvel', dato: 'marvel', disabled: false },
-                { texto: 'Netflix', dato: 'netflix', disabled: false },
-                { texto: 'A24', dato: 'a24', disabled: false },
-                { texto: 'Otro', dato: 'otro', disabled: false }
+                { texto: 'Warner Bros', dato: 'warner' },
+                { texto: 'Universal Pictures', dato: 'universal_pictures' },
+                { texto: '20th Century', dato: '20th_century' },
+                { texto: 'Columbia Pictures', dato: 'columbia_pictures' },
+                { texto: 'Disney', dato: 'disney' },
+                { texto: 'Pixar Animation', dato: 'pixar' },
+                { texto: 'Marvel', dato: 'marvel' },
+                { texto: 'Netflix', dato: 'netflix' },
+                { texto: 'A24', dato: 'a24' },
+                { texto: 'Otro', dato: 'otro' }
             ],
             estados: [
-                { texto: 'Visto', dato: 'visto', disabled: false },
-                { texto: 'Viendo ahora', dato: 'viendo', disabled: false },
-                { texto: 'Quiero ver', dato: 'quiero', disabled: false },
-            ],
-            arr: [],
+                { texto: 'Visto', dato: 'visto' },
+                { texto: 'Viendo ahora', dato: 'viendo' },
+                { texto: 'Quiero ver', dato: 'quiero' }
+            ]
         }
-
-
     },
-    template: `<div class="form">
 
-        <form v-on:submit.prevent="enviar">
-        <label>Titulo</label>
-        <input type="text" v-model="form_data.titulo" />
+    template: `
+    <div class="form">
+        <form @submit.prevent="enviar">
 
-        <label>Géneros</label>
+            <label>Titulo</label>
+            <input type="text" v-model="form_data.titulo" />
 
-        <div class="chips">
-        <label class="chip" v-for="genero in generos">
-            <input
-            type="checkbox"
-            v-model="form_data.generos"
-            v-bind:value="genero.dato"
-            >
-            <span>{{genero.texto}}</span>
-        </label>
-        </div>
+            <label>Géneros</label>
+            <div class="chips">
+                <label class="chip" v-for="genero in generos">
+                    <input
+                        type="checkbox"
+                        v-model="form_data.generos"
+                        :value="genero.dato"
+                    >
+                    <span>{{genero.texto}}</span>
+                </label>
+            </div>
 
-        <label>Productora</label>
-        <select v-model="form_data.productora">
-            <option v-for="productora in productoras" v-bind:value="productora.dato">
-            {{productora.texto}}
-            </option>
-        </select>
+            <label>Productora</label>
+            <select v-model="form_data.productora">
+                <option disabled value="">Seleccionar</option>
+                <option v-for="productora in productoras" :value="productora.dato">
+                    {{productora.texto}}
+                </option>
+            </select>
 
-        <label>Estado</label>
-        <select v-model="form_data.estado">
-            <option v-for="estado in estados" v-bind:value="estado.dato">
-            {{estado.texto}}
-            </option>
-        </select>
+            <label>Estado</label>
+            <select v-model="form_data.estado">
+                <option disabled value="">Seleccionar</option>
+                <option v-for="estado in estados" :value="estado.dato">
+                    {{estado.texto}}
+                </option>
+            </select>
 
-        <label>Comentario</label>
-        <textarea v-model.trim="form_data.comentario"></textarea>
+            <label>Comentario</label>
+            <textarea v-model.trim="form_data.comentario"></textarea>
 
-        <input type="submit" value="Enviar" />
+            <input type="submit" value="Enviar" />
         </form>
+    </div>
+    `,
 
-        <div v-if="arr.length > 0">
-        <h2>Datos</h2>
-        <ul>
-            <li v-for="item in arr">
-            {{ item.titulo }}, {{form_data.generos}}, {{ item.productora }}, {{
-            item.estado }}, {{ item.comentario }}
-            </li>
-        </ul>
-        </div>
-
-	</div>`,
     methods: {
-        enviar: function () {
-            let nuevoObj = {
+        enviar() {
+            const nuevoObj = {
                 titulo: this.form_data.titulo,
-                genero: this.form_data.genero,
+                generos: [...this.form_data.generos],
                 productora: this.form_data.productora,
                 estado: this.form_data.estado,
                 comentario: this.form_data.comentario,
-            }
+            };
 
-            this.arr.push(nuevoObj);
-            console.log(nuevoObj);
+            this.$emit("agregar-pelicula", nuevoObj);
+
+            this.form_data = {
+                titulo: "",
+                generos: [],
+                productora: "",
+                estado: "",
+                comentario: "",
+            };
         }
-    },
-
+    }
 });
 
-app.mount('.contenedor');
+
+app.component('lista-peliculas', {
+    props: ['peliculas'],
+    template: `
+    <section class="datos">
+        <h2>Datos</h2>
+
+        <ul>
+            <li v-for="item in peliculas">
+                {{ item.titulo }} |
+                {{ item.generos.join(', ') }} |
+                {{ item.productora }} |
+                {{ item.estado }} |
+                {{ item.comentario }}
+            </li>
+        </ul>
+    </section>
+    `
+});
+
+app.mount('#app');

@@ -1,25 +1,32 @@
 <!DOCTYPE html>
 <html lang="es">
-  <head>
+<head>
     <meta charset="UTF-8" />
     <title>Biblioteca de películas</title>
 
     <link rel="stylesheet" href="css/estilos.css">
     <script src="scripts/vue3.js"></script>
-  </head>
+</head>
 
-  <body>
-    <div class="layout">
-      <div class="left"></div>
+<body>
+    <div id="app" v-cloak>
+        <div class="layout">
+            <div class="left"></div>
 
-      <div class="right">
-        <div class="contenedor" v-cloak>
-          <h1>{{titulo}}</h1>
-          <mi-componente></mi-componente>
+            <div class="right">
+                <div class="contenedor">
+                    <h1>{{ titulo }}</h1>
+
+                    <mi-formulario 
+                        @agregar-pelicula="peliculas.push($event)">
+                    </mi-formulario>
+                </div>
+            </div>
         </div>
-      </div>
+
+        <lista-peliculas :peliculas="peliculas"></lista-peliculas>
     </div>
 
     <script src="scripts/app.js"></script>
-  </body>
+</body>
 </html>
