@@ -5,13 +5,13 @@
 body {
     margin: 0;
     font-family: Arial, Helvetica, sans-serif;
-    color: #222;
+    color: white;
 }
 
 .layout {
     display: flex;
     min-height: 100vh;
-        background: #f5f7fa;
+    background: black;
 }
 
 .left {
@@ -85,7 +85,7 @@ input[type="submit"] {
     padding: 12px 16px;
     border: none;
     border-radius: 10px;
-    background: #5b5ce2;
+    background: #1f2f98;
     color: #fff;
     font-size: 16px;
     font-weight: 600;
@@ -111,16 +111,13 @@ input[type="submit"]:active {
     gap: 10px;
     margin-top: 12px;
 }
-
 .chip {
     margin: 0;
     cursor: pointer;
 }
-
 .chip input {
     display: none;
 }
-
 .chip span {
     display: inline-block;
     padding: 10px 16px;
@@ -131,13 +128,118 @@ input[type="submit"]:active {
     font-size: 15px;
     transition: 0.2s;
 }
-
 .chip input:checked + span {
     background: #5b5ce2;
     border-color: #5b5ce2;
     color: #fff;
 }
 
+input[type="text"], input[type="date"], 
+textarea, select {
+    width: 100%;
+    display: block;
+    padding: 12px 14px;
+    border: 1px solid #d6d6d6;
+    border-radius: 10px;
+    font-size: 16px;
+    font-family: inherit;
+    color: #222;
+    background: #fff;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+input[type="text"]:focus, input[type="date"]:focus, 
+textarea:focus, select:focus {
+    outline: none;
+    border-color: #5b5ce2;
+    box-shadow: 0 0 0 3px rgba(91, 92, 226, 0.15);
+}
+input[type="date"]::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+    opacity: 0.5;
+    transition: opacity 0.2s;
+}
+input[type="date"]::-webkit-calendar-picker-indicator:hover {
+    opacity: 1;
+}
+
+/* LISTA DE PELÍCULAS  */
+.contenedorPeliculas {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
+    background-color: black;
+}
+.titulo-seccion {
+    text-align: center;
+    padding-top: 20px;
+    margin-bottom: 30px;
+    color: #ffffff;
+}
+.mensaje-vacio {
+    text-align: center;
+    color: #888;
+    padding: 40px 0 60px;
+    font-size: 18px;
+}
+.grilla-peliculas {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+    padding-bottom: 50px;
+}
+.tarjeta-pelicula {
+    background-color: #333333; 
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    border-top: 5px solid #5b5ce2;
+    display: flex;
+    flex-direction: column;
+}
+.tarjeta-pelicula h3 {
+    margin: 0 0 20px 0;
+    font-size: 22px;
+    color: #ffffff;
+    border-bottom: 1px solid #444;
+    padding-bottom: 10px;
+}
+.estrellas {
+    font-size: 14px;
+    filter: drop-shadow(0 0 2px rgba(255, 215, 0, 0.5));
+}
+.datos-columna {
+    display: flex;
+    flex-direction: column;
+    gap: 12px; 
+}
+.datos-columna p {
+    margin: 0;
+    display: flex;
+    flex-direction: column; 
+    font-size: 15px;
+    color: #e0e0e0;
+}
+.datos-columna p strong {
+    font-size: 13px;
+    color: #aaa;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+}
+.datos-columna p.comentario {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px dashed #555;
+    font-style: italic;
+}
+.estado {
+    text-transform: capitalize;
+    color: #787ff6;
+    font-weight: bold;
+}
+
+
+/* MEDIA QUERIES */
 @media (max-width: 900px) {
     .layout {
         flex-direction: column;
