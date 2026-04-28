@@ -1,3 +1,7 @@
+/* =========================
+   GENERAL
+========================= */
+
 * {
     box-sizing: border-box;
 }
@@ -7,6 +11,14 @@ body {
     font-family: Arial, Helvetica, sans-serif;
     color: white;
 }
+
+[v-cloak] {
+    display: none;
+}
+
+/* =========================
+   PRIMERA SECCIÓN
+========================= */
 
 .layout {
     display: flex;
@@ -35,6 +47,10 @@ body {
     width: 100%;
 }
 
+/* =========================
+   FORMULARIO
+========================= */
+
 .form {
     max-width: 500px;
     background: #ffffff;
@@ -52,6 +68,7 @@ label {
 }
 
 input[type="text"],
+input[type="date"],
 textarea,
 select {
     width: 100%;
@@ -67,11 +84,12 @@ select {
 }
 
 input[type="text"]:focus,
+input[type="date"]:focus,
 textarea:focus,
 select:focus {
     outline: none;
-    border-color: #5b5ce2;
-    box-shadow: 0 0 0 3px rgba(91, 92, 226, 0.15);
+    border-color: #000000;
+    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.15);
 }
 
 textarea {
@@ -85,7 +103,7 @@ input[type="submit"] {
     padding: 12px 16px;
     border: none;
     border-radius: 10px;
-    background: #1f2f98;
+    background: #000000;
     color: #fff;
     font-size: 16px;
     font-weight: 600;
@@ -94,16 +112,16 @@ input[type="submit"] {
 }
 
 input[type="submit"]:hover {
-    background: #4849c9;
+    background: #8f1d2c;
 }
 
 input[type="submit"]:active {
     transform: scale(0.98);
 }
 
-[v-cloak] {
-    display: none;
-}
+/* =========================
+   GÉNEROS / CHIPS
+========================= */
 
 .chips {
     display: flex;
@@ -111,13 +129,16 @@ input[type="submit"]:active {
     gap: 10px;
     margin-top: 12px;
 }
+
 .chip {
     margin: 0;
     cursor: pointer;
 }
+
 .chip input {
     display: none;
 }
+
 .chip span {
     display: inline-block;
     padding: 10px 16px;
@@ -128,118 +149,145 @@ input[type="submit"]:active {
     font-size: 15px;
     transition: 0.2s;
 }
+
 .chip input:checked + span {
-    background: #5b5ce2;
-    border-color: #5b5ce2;
+    background: #000000;
+    border-color: #000000;
     color: #fff;
 }
 
-input[type="text"], input[type="date"], 
-textarea, select {
+
+/* =========================
+   SEGUNDA SECCIÓN / PELÍCULAS
+========================= */
+
+.contenedorPeliculas {
     width: 100%;
-    display: block;
-    padding: 12px 14px;
-    border: 1px solid #d6d6d6;
-    border-radius: 10px;
-    font-size: 16px;
-    font-family: inherit;
-    color: #222;
-    background: #fff;
-    transition: border-color 0.2s, box-shadow 0.2s;
-}
-input[type="text"]:focus, input[type="date"]:focus, 
-textarea:focus, select:focus {
-    outline: none;
-    border-color: #5b5ce2;
-    box-shadow: 0 0 0 3px rgba(91, 92, 226, 0.15);
-}
-input[type="date"]::-webkit-calendar-picker-indicator {
-    cursor: pointer;
-    opacity: 0.5;
-    transition: opacity 0.2s;
-}
-input[type="date"]::-webkit-calendar-picker-indicator:hover {
-    opacity: 1;
+    min-height: 100vh;
+    padding: 25px 40px 60px;
+    background-image: url("../img/pochoclo.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
-/* LISTA DE PELÍCULAS  */
-.contenedorPeliculas {
-    max-width: 1200px;
-    margin: 40px auto;
-    padding: 0 20px;
-    background-color: black;
+.datos {
+    width: 100%;
+    color: #222;
 }
+
 .titulo-seccion {
+    width: fit-content;
+    margin: 0 auto 35px;
+    padding: 12px 28px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.9);
+    color: #222;
     text-align: center;
-    padding-top: 20px;
-    margin-bottom: 30px;
-    color: #ffffff;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
 }
+
 .mensaje-vacio {
     text-align: center;
-    color: #888;
-    padding: 40px 0 60px;
+    color: #777;
     font-size: 18px;
 }
-.grilla-peliculas {
+
+
+/* =========================
+   COLUMNAS
+========================= */
+
+.columnas-peliculas {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 20px;
-    padding-bottom: 50px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
 }
-.tarjeta-pelicula {
-    background-color: #333333; 
-    border-radius: 12px;
+
+.columna-estado {
+    min-height: 400px;
     padding: 24px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-    border-top: 5px solid #5b5ce2;
-    display: flex;
-    flex-direction: column;
+    border-radius: 18px;
+    background: #f5f7fa;
+    transition: background 0.2s;
 }
-.tarjeta-pelicula h3 {
-    margin: 0 0 20px 0;
-    font-size: 22px;
-    color: #ffffff;
-    border-bottom: 1px solid #444;
-    padding-bottom: 10px;
+
+.columna-estado:hover {
+    background: #fff0f2;
 }
-.estrellas {
+
+.columna-estado h3 {
+    margin: 0 0 20px;
+    text-align: center;
+    color: #222;
+}
+
+
+/* =========================
+   TARJETAS
+========================= */
+
+.tarjeta-pelicula {
+    margin-bottom: 16px;
+    padding: 18px;
+    border-radius: 14px;
+    border-left: 5px solid #8f1d2c;
+    background: #ffffff;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    cursor: grab;
+}
+
+.tarjeta-pelicula:active {
+    cursor: grabbing;
+    opacity: 0.7;
+}
+
+.tarjeta-pelicula h4 {
+    margin: 0 0 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #ddd;
+    color: #222;
+    font-size: 20px;
+}
+
+.tarjeta-pelicula p {
+    margin: 8px 0;
+    color: #333;
     font-size: 14px;
-    filter: drop-shadow(0 0 2px rgba(255, 215, 0, 0.5));
 }
-.datos-columna {
-    display: flex;
-    flex-direction: column;
-    gap: 12px; 
+
+.tarjeta-pelicula strong {
+    color: #111;
 }
-.datos-columna p {
-    margin: 0;
-    display: flex;
-    flex-direction: column; 
-    font-size: 15px;
-    color: #e0e0e0;
-}
-.datos-columna p strong {
-    font-size: 13px;
-    color: #aaa;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    margin-bottom: 4px;
-}
-.datos-columna p.comentario {
+
+
+/* =========================
+   RATING
+========================= */
+
+.rating {
     margin-top: 10px;
-    padding-top: 10px;
-    border-top: 1px dashed #555;
-    font-style: italic;
-}
-.estado {
-    text-transform: capitalize;
-    color: #787ff6;
-    font-weight: bold;
 }
 
+.estrella {
+    font-size: 26px;
+    color: #d6d6d6;
+    cursor: pointer;
+    transition: color 0.2s, transform 0.1s;
+}
 
-/* MEDIA QUERIES */
+.estrella:hover {
+    transform: scale(1.15);
+}
+
+.estrella.activa {
+    color: #f5c518;
+}
+
+/* =========================
+   ADAPTACIÓN TABLET
+========================= */
+
 @media (max-width: 900px) {
     .layout {
         flex-direction: column;
@@ -247,17 +295,74 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
 
     .left {
         width: 100%;
-        height: 300px;
+        height: 320px;
     }
 
     .right {
         width: 100%;
-        padding: 24px;
+        padding: 32px 24px;
+    }
+
+    .columnas-peliculas {
+        grid-template-columns: 1fr;
+    }
+
+    .contenedorPeliculas {
+        padding: 30px 24px 50px;
+    }
+
+    .columna-estado {
+        min-height: 250px;
     }
 }
 
+
+/* =========================
+   ADAPTACIÓN MOBILE
+========================= */
+
 @media (max-width: 600px) {
+    .left {
+        height: 240px;
+    }
+
+    .right {
+        padding: 24px 16px;
+    }
+
     .form {
         padding: 24px;
+        border-radius: 14px;
+    }
+
+    h1 {
+        font-size: 28px;
+    }
+
+    label {
+        font-size: 15px;
+    }
+
+    .chip span {
+        padding: 8px 13px;
+        font-size: 14px;
+    }
+
+    .contenedorPeliculas {
+        padding: 24px 16px 40px;
+    }
+
+    .titulo-seccion {
+        margin-bottom: 24px;
+        padding: 10px 22px;
+        font-size: 22px;
+    }
+
+    .columna-estado {
+        padding: 18px;
+    }
+
+    .tarjeta-pelicula {
+        padding: 16px;
     }
 }

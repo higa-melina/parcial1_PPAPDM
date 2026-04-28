@@ -1,8 +1,63 @@
 const app = Vue.createApp({
     data() {
         return {
-            titulo: "Llevá un registro de tu películas",
-            peliculas: []
+            titulo: "Llevá un registro de tus películas",
+            peliculaArrastrada: null,
+
+            peliculas: [
+                {
+                    titulo: "Inception",
+                    director: "Christopher Nolan",
+                    generos: ["Acción", "Ciencia ficción"],
+                    productora: "Warner Bros",
+                    estado: "viendo",
+                    fecha: "",
+                    puntuacion: null,
+                    comentario: "Muy interesante."
+                },
+                {
+                    titulo: "Titanic",
+                    director: "James Cameron",
+                    generos: ["Drama", "Romance"],
+                    productora: "20th Century",
+                    estado: "visto",
+                    fecha: "2024-03-15",
+                    puntuacion: 4,
+                    comentario: "Un clásico."
+                },
+                {
+                    titulo: "Coco",
+                    director: "Lee Unkrich",
+                    generos: ["Animación", "Musical"],
+                    productora: "Pixar Animation",
+                    estado: "quiero",
+                    fecha: "",
+                    puntuacion: null,
+                    comentario: "Quiero verla después."
+                }
+            ]
+        }
+    },
+
+    methods: {
+        empezarDrag(pelicula) {
+            this.peliculaArrastrada = pelicula;
+        },
+
+        cambiarEstado(nuevoEstado) {
+            if (this.peliculaArrastrada) {
+                this.peliculaArrastrada.estado = nuevoEstado;
+
+                if (nuevoEstado === "visto") {
+                    const hoy = new Date().toISOString().split("T")[0];
+                    this.peliculaArrastrada.fecha = hoy;
+                } else {
+                    this.peliculaArrastrada.fecha = "";
+                    this.peliculaArrastrada.puntuacion = null;
+                }
+
+                this.peliculaArrastrada = null;
+            }
         }
     }
 });
@@ -55,55 +110,67 @@ app.component('mi-formulario', {
 
     template: /*html*/`
     <div class="form">
-        <form @submit.prevent="enviar">
+      <form @submit.prevent="enviar">
+        <label>Titulo</label>
+        <input
+          type="text"
+          v-model="form_data.titulo"
+          placeholder="Título de la película"
+        />
 
-            <label>Titulo</label>
-            <input type="text" v-model="form_data.titulo" placeholder="Título de la película" />
+        <label>Director</label>
+        <input
+          type="text"
+          v-model="form_data.director"
+          placeholder="Nombre del director"
+        />
 
-            <label>Director</label>
-            <input type="text" v-model="form_data.director" placeholder="Nombre del director" />
+        <label>Géneros</label>
+        <div class="chips">
+          <label class="chip" v-for="genero in generos">
+            <input
+              type="checkbox"
+              v-model="form_data.generos"
+              :value="genero.texto"
+            />
+            <span>{{genero.texto}}</span>
+          </label>
+        </div>
 
-            <label>Géneros</label>
-            <div class="chips">
-                <label class="chip" v-for="genero in generos">
-                    <input
-                        type="checkbox"
-                        v-model="form_data.generos"
-                        :value="genero.dato"
-                    >
-                    <span>{{genero.texto}}</span>
-                </label>
-            </div>
+        <label>Productora</label>
+        <select v-model="form_data.productora">
+          <option disabled value="">Seleccionar</option>
+          <option v-for="productora in productoras" :value="productora.texto">
+            {{ productora.texto }}
+          </option>
+        </select>
 
-            <label>Productora</label>
-            <select v-model="form_data.productora">
-                <option disabled value="">Seleccionar</option>
-                <option v-for="productora in productoras" :value="productora.dato">
-                    {{productora.texto}}
-                </option>
-            </select>
+        <label>Estado</label>
+        <select v-model="form_data.estado">
+          <option disabled value="">Seleccionar</option>
+          <option v-for="estado in estados" :value="estado.dato">
+            {{estado.texto}}
+          </option>
+        </select>
 
-            <label>Estado</label>
-            <select v-model="form_data.estado">
-                <option disabled value="">Seleccionar</option>
-                <option v-for="estado in estados" :value="estado.dato">
-                    {{estado.texto}}
-                </option>
-            </select>
+        <div v-if="form_data.estado === 'visto'">
+          <label>Fecha en que la viste</label>
+          <input type="date" v-model="form_data.fecha" />
 
-            <label>Fecha en que la viste</label> <input type="date" v-model="form_data.fecha" />
+          <label>Puntuación</label>
+          <select v-model.number="form_data.puntuacion">
+            <option disabled value="">Seleccionar puntaje</option>
+            <option v-for="n in 5" :value="n">
+              {{ n }} {{ n === 1 ? 'Estrella' : 'Estrellas' }}
+            </option>
+          </select>
+        </div>
 
-            <label>Puntuación</label>
-            <select v-model.number="form_data.puntuacion">
-            <option disabled value="null">Seleccionar puntaje</option>
-            <option v-for="n in 5" :value="n">{{ n }} {{ n === 1 ? 'Estrella' : 'Estrellas' }}</option>
-            </select>
+        <label>Comentario</label>
+        <textarea v-model.trim="form_data.comentario"></textarea>
 
-            <label>Comentario</label>
-            <textarea v-model.trim="form_data.comentario"></textarea>
-
-            <input type="submit" value="Enviar" />
-        </form>
+        <input type="submit" value="Enviar" />
+      </form>
     </div>
     `,
 
@@ -115,8 +182,8 @@ app.component('mi-formulario', {
                 generos: [...this.form_data.generos],
                 productora: this.form_data.productora,
                 estado: this.form_data.estado,
-                fecha: this.form_data.fecha,
-                puntuacion: this.form_data.puntuacion,
+                fecha: this.form_data.estado === "visto" ? this.form_data.fecha : "",
+                puntuacion: this.form_data.estado === "visto" ? this.form_data.puntuacion : null,
                 comentario: this.form_data.comentario,
             };
 
@@ -139,43 +206,82 @@ app.component('mi-formulario', {
 // LISTA DE PELÍCULAS
 app.component('lista-peliculas', {
     props: ['peliculas'],
-    
+
+    data() {
+        return {
+            columnas: [
+                { titulo: 'Viendo ahora', estado: 'viendo' },
+                { titulo: 'Visto', estado: 'visto' },
+                { titulo: 'Quiero ver', estado: 'quiero' }
+            ]
+        }
+    },
+
     template: /*html*/`
-    <section class="datos">
-        <h2 class="titulo-seccion">Mis películas</h2>
+        <section class="datos">
+      <h2 class="titulo-seccion">Mis películas</h2>
 
-        <div v-if="peliculas.length === 0" class="mensaje-vacio">
-            <p>Todavía no agregaste ninguna película a tu biblioteca.</p>
-        </div>
+      <div v-if="peliculas.length === 0" class="mensaje-vacio">
+        <p>Todavía no agregaste ninguna película a tu biblioteca.</p>
+      </div>
 
-        <div v-else class="grilla-peliculas">
-            <div class="tarjeta-pelicula" v-for="(item, index) in peliculas" :key="index">
-                <h3>{{ item.titulo }}</h3>
-                
-                <div class="estrellas" v-if="item.puntuacion">
-                    <span v-for="n in item.puntuacion">⭐</span>
-                </div>
-                
-                <div class="datos-columna">
-                    <p v-if="item.director"><strong>Director:</strong> <span>{{ item.director }}</span></p>
+      <div v-else class="columnas-peliculas">
+        <div
+          class="columna-estado"
+          v-for="columna in columnas"
+          @dragover.prevent
+          @drop="$emit('cambiar-estado', columna.estado)"
+        >
+          <h3>{{ columna.titulo }}</h3>
 
-                    <p><strong>Género/s:</strong> <span>{{ item.generos.join(', ') || '-' }}</span></p>
+          <div
+            class="tarjeta-pelicula"
+            v-for="(item, index) in peliculasPorEstado(columna.estado)"
+            :key="item.titulo + index"
+            draggable="true"
+            @dragstart="$emit('empezar-drag', item)"
+          >
+            <h4>{{ item.titulo }}</h4>
 
-                    <p><strong>Productora:</strong> <span>{{ item.productora || '-' }}</span></p>
+            <p v-if="item.director">
+              <strong>Director:</strong> {{ item.director }}
+            </p>
 
-                    <p v-if="item.fecha"><strong>Vista el:</strong> <span>{{ formatearFecha(item.fecha) }}</span></p>
+            <p>
+              <strong>Géneros:</strong> {{ item.generos.join(', ') || '-' }}
+            </p>
 
-                    <p><strong>Estado:</strong> <span class="estado">{{ item.estado || '-' }}</span></p>
-                    <p class="comentario" v-if="item.comentario">
+            <p><strong>Productora:</strong> {{ item.productora || '-' }}</p>
 
-                    <strong>Comentario:</strong> <span>{{ item.comentario }}</span>
-                    </p>
-                </div>
+            <p v-if="item.fecha">
+              <strong>Vista el:</strong> {{ formatearFecha(item.fecha) }}
+            </p>
+
+            <div v-if="item.estado === 'visto'" class="rating">
+              <span
+                v-for="n in 5"
+                class="estrella"
+                :class="{ activa: n <= item.puntuacion }"
+                @click="item.puntuacion = n"
+              >
+                ★
+              </span>
             </div>
+
+            <p v-if="item.comentario">
+              <strong>Comentario:</strong> {{ item.comentario }}
+            </p>
+          </div>
         </div>
+      </div>
     </section>
     `,
+
     methods: {
+        peliculasPorEstado(estado) {
+            return this.peliculas.filter(pelicula => pelicula.estado === estado);
+        },
+
         formatearFecha(fecha) {
             if (!fecha) return '';
             return fecha.split('-').reverse().join('/');

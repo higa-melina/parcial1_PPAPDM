@@ -1,34 +1,38 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
-<head>
+  <head>
     <meta charset="UTF-8" />
     <title>Biblioteca de películas</title>
 
-    <link rel="stylesheet" href="css/estilos.css">
+    <link rel="stylesheet" href="css/estilos.css" />
     <script src="scripts/vue3.js"></script>
-</head>
+  </head>
 
-<body>
+  <body>
     <div id="app" v-cloak>
-        <div class="layout">
-            <div class="left"></div>
+      <div class="layout">
+        <div class="left"></div>
 
-            <div class="right">
-                <div class="contenedor">
-                    <h1>{{ titulo }}</h1>
+        <div class="right">
+          <div class="contenedor">
+            <h1>{{ titulo }}</h1>
 
-                    <mi-formulario 
-                        @agregar-pelicula="peliculas.push($event)">
-                    </mi-formulario>
-                </div>
-            </div>
+            <mi-formulario @agregar-pelicula="peliculas.push($event)">
+            </mi-formulario>
+          </div>
         </div>
+      </div>
 
-        <div class="contenedorPeliculas">
-            <lista-peliculas :peliculas="peliculas"></lista-peliculas>
-        </div>
+      <div class="contenedorPeliculas">
+        <lista-peliculas
+          :peliculas="peliculas"
+          @empezar-drag="empezarDrag"
+          @cambiar-estado="cambiarEstado"
+        >
+        </lista-peliculas>
+      </div>
     </div>
 
     <script src="scripts/app.js"></script>
-</body>
+  </body>
 </html>
