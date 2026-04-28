@@ -166,12 +166,17 @@ app.component('mi-formulario', {
           <input type="date" v-model="form_data.fecha" />
 
           <label>Puntuación</label>
-          <select v-model.number="form_data.puntuacion">
-            <option disabled value="">Seleccionar puntaje</option>
-            <option v-for="n in 5" :value="n">
-              {{ n }} {{ n === 1 ? 'Estrella' : 'Estrellas' }}
-            </option>
-          </select>
+
+          <div class="rating">
+            <span
+              v-for="n in 5"
+              class="estrella"
+              :class="{ activa: n <= form_data.puntuacion }"
+              @click="form_data.puntuacion === n ? form_data.puntuacion = null : form_data.puntuacion = n"
+            >
+              ★
+            </span>
+          </div>
         </div>
 
         <label>Comentario</label>
