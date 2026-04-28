@@ -253,9 +253,10 @@ app.component('lista-peliculas', {
 
             <p><strong>Productora:</strong> {{ item.productora || '-' }}</p>
 
-            <p v-if="item.fecha">
-              <strong>Vista el:</strong> {{ formatearFecha(item.fecha) }}
-            </p>
+            <div v-if="item.estado === 'visto'" class="fecha-card-wrap">
+                <label>Vista el</label>
+                <input type="date" v-model="item.fecha" class="fecha-card" />
+            </div>
 
             <div v-if="item.estado === 'visto'" class="rating">
               <span

@@ -260,6 +260,26 @@ input[type="submit"]:active {
     color: #111;
 }
 
+/* =========================
+   FECHA
+========================= */
+
+
+.fecha-card-wrap {
+    margin: 10px 0;
+}
+
+.fecha-card-wrap label {
+    margin: 0 0 6px;
+    font-size: 13px;
+    text-transform: uppercase;
+    color: #111;
+}
+
+.fecha-card {
+    padding: 8px 10px;
+    font-size: 14px;
+}
 
 /* =========================
    RATING
