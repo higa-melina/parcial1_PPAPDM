@@ -58,6 +58,14 @@ const app = Vue.createApp({
 
                 this.peliculaArrastrada = null;
             }
+        },
+
+        eliminarPelicula(pelicula) {
+            const indice = this.peliculas.indexOf(pelicula);
+
+            if (indice !== -1) {
+                this.peliculas.splice(indice, 1);
+            }
         }
     }
 });
@@ -232,15 +240,23 @@ app.component('lista-peliculas', {
           @dragover.prevent
           @drop="$emit('cambiar-estado', columna.estado)"
         >
-          <h3>{{ columna.titulo }}</h3>
+            <h3>{{ columna.titulo }}</h3>
 
-          <div
-            class="tarjeta-pelicula"
-            v-for="(item, index) in peliculasPorEstado(columna.estado)"
-            :key="item.titulo + index"
-            draggable="true"
-            @dragstart="$emit('empezar-drag', item)"
-          >
+            <div
+                class="tarjeta-pelicula"
+                v-for="(item, index) in peliculasPorEstado(columna.estado)"
+                :key="item.titulo + index"
+                draggable="true"
+                @dragstart="$emit('empezar-drag', item)"
+            >
+
+            <button
+            class="btn-eliminar"
+            @click="$emit('eliminar-pelicula', item)"
+            >
+                ×
+            </button>
+
             <h4>{{ item.titulo }}</h4>
 
             <p v-if="item.director">
