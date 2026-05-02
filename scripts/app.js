@@ -269,13 +269,15 @@ app.component('mi-formulario', {
 
           <div class="rating">
             <span
-              v-for="n in 5"
-              class="estrella"
-              :class="{ activa: n <= form_data.puntuacion }"
-              @click="form_data.puntuacion === n ? form_data.puntuacion = null : form_data.puntuacion = n"
-            >
-              ★
-            </span>
+  v-for="n in 5"
+  class="estrella"
+  :class="n <= form_data.puntuacion ? 'activa' : ''"
+  @click="form_data.puntuacion === n 
+    ? form_data.puntuacion = null 
+    : form_data.puntuacion = n"
+>
+  ★
+</span>
           </div>
         </div>
 
@@ -379,7 +381,7 @@ app.component('lista-peliculas', {
         <!-- Edición del usuario -->
         <div v-if="editandoItem === item" class="modo-edicion">
 
-        <div class="poster-edit">
+        <div class="poster-editar">
           <img
             :src="datosEdicion.imagen || 'img/card-poster.png'"
             alt="Póster de la película"
@@ -455,7 +457,7 @@ app.component('lista-peliculas', {
           <span
             v-for="n in 5"
             class="estrella"
-            :class="{ activa: n <= item.puntuacion }"
+            :class="n <= item.puntuacion ? 'activa' : ''"
             @click="item.puntuacion = n"
           >
             ★
@@ -533,9 +535,9 @@ app.component('recomendaciones-peliculas', {
                 <p><strong>Productora:</strong> {{ item.productora }}</p>
 
                 <div class="botones-recomendacion">
-    <button class="btn-agregar-rec" @click="$emit('agregar-recomendacion', item, 'quiero')">
-        + Quiero ver
-    </button>
+                <button class="btn-agregar-rec" @click="$emit('agregar-recomendacion', item, 'quiero')">
+                    + Quiero ver
+                </button>
 
     <button class="btn-agregar-rec" @click="$emit('agregar-recomendacion', item, 'visto')">
         ✓ Ya la vi
