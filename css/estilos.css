@@ -257,7 +257,7 @@ input[type="submit"]:active {
     margin: 0 0 16px;
     padding-bottom: 12px;
     border-bottom: 1px solid #ddd;
-    color: #222;
+    color: #5f0c17;
     font-size: 20px;
 }
 
@@ -338,6 +338,113 @@ input[type="submit"]:active {
     color: #f5c518;
 }
 
+
+/* =========================
+   EDICIÓN DE TARJETAS
+========================= */
+.btn-editar {
+    position: absolute;
+    top: 10px;
+    right: 42px;
+    width: 26px;
+    height: 26px;
+    border: none;
+    border-radius: 50%;
+    background: #000000;
+    color: white;
+    font-size: 14px;
+    line-height: 1;
+    cursor: pointer;
+}
+.btn-editar:hover {
+    background: #5b5ce2;
+}
+
+/* Inputs dentro de la tarjeta */
+.modo-edicion {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.input-inline {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+    font-family: inherit;
+}
+.input-inline:focus {
+    outline: none;
+    border-color: #000;
+}
+textarea.input-inline {
+    min-height: 60px;
+    resize: vertical;
+}
+
+.botones-edicion {
+    display: flex;
+    gap: 10px;
+    margin-top: 5px;
+}
+.btn-guardar-inline,
+.btn-cancelar-inline {
+    flex: 1;
+    padding: 8px;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+}
+.btn-guardar-inline {
+    background: #000;
+    color: #fff;
+}
+.btn-guardar-inline:hover { background: #333; }
+.btn-cancelar-inline {
+    background: #e0e0e0;
+    color: #333;
+}
+.btn-cancelar-inline:hover { background: #ccc; }
+
+/* =========================
+   SECCIÓN DE RECOMENDACIONES
+========================= */
+.seccion-recomendaciones {
+    margin-top: 60px; 
+}
+.titulo-recomendaciones {
+    background: #5b5ce2;
+    color: white;
+}
+.grid-recomendaciones {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+.tarjeta-recomendacion {
+    border-left-color: #8f1d2c;
+    display: flex;
+    flex-direction: column;
+}
+.btn-agregar-rec {
+    width: 100%;
+    margin-top: auto; 
+    padding: 10px;
+    border: 1px dashed #8f1d2c;
+    border-radius: 8px;
+    background: rgba(143, 29, 44, 0.1);
+    color: #8f1d2c;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+.btn-agregar-rec:hover {
+    background: #8f1d2c;
+    color: white;
+    border-style: solid;
+}
+
+
 /* =========================
    ADAPTACIÓN TABLET
 ========================= */
@@ -369,7 +476,6 @@ input[type="submit"]:active {
         min-height: 250px;
     }
 }
-
 
 /* =========================
    ADAPTACIÓN MOBILE
