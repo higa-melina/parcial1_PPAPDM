@@ -387,9 +387,10 @@ app.component('lista-peliculas', {
             alt="Póster de la película"
           />
 
-          <label class="btn-cambiar-poster">
+        <label class="btn-cambiar-poster">
+            ✎    
             <input type="file" accept="image/*" @change="cargarPosterEdicion" />
-          </label>
+        </label>
         </div>
 
             <input type="text" v-model="datosEdicion.titulo" class="input-inline" placeholder="Título" />
