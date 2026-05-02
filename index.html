@@ -29,9 +29,16 @@
           @empezar-drag="empezarDrag"
           @cambiar-estado="cambiarEstado"
           @eliminar-pelicula="eliminarPelicula"
+          @guardar-edicion="actualizarPelicula"
         >
         </lista-peliculas>
-      </div>
+
+        <recomendaciones-peliculas
+          :recomendaciones="peliculasRecomendadas"
+          @agregar-recomendacion="agregarRecomendacionDirecta"
+        >
+        </recomendaciones-peliculas>
+      </div>      
     </div>
 
     <script src="scripts/app.js"></script>
