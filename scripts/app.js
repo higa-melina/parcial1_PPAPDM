@@ -1,41 +1,126 @@
 const app = Vue.createApp({
     data() {
-        return {
-            titulo: "Llevá un registro de tus películas",
-            peliculaArrastrada: null,
+      const peliculasGuardadas = localStorage.getItem('mis_peliculas');
 
-            peliculas: [
-                {
-                    titulo: "Inception",
-                    director: "Christopher Nolan",
-                    generos: ["Acción", "Ciencia ficción"],
-                    productora: "Warner Bros",
-                    estado: "viendo",
-                    fecha: "",
-                    puntuacion: null,
-                    comentario: "Muy interesante."
-                },
-                {
-                    titulo: "Titanic",
-                    director: "James Cameron",
-                    generos: ["Drama", "Romance"],
-                    productora: "20th Century",
-                    estado: "visto",
-                    fecha: "2024-03-15",
-                    puntuacion: 4,
-                    comentario: "Un clásico."
-                },
-                {
-                    titulo: "Coco",
-                    director: "Lee Unkrich",
-                    generos: ["Animación", "Musical"],
-                    productora: "Pixar Animation",
-                    estado: "quiero",
-                    fecha: "",
-                    puntuacion: null,
-                    comentario: "Quiero verla después."
-                }
-            ]
+      const peliculasIniciales = peliculasGuardadas 
+        ? JSON.parse(peliculasGuardadas) 
+          : [
+              {
+                  titulo: "Inception",
+                  director: "Christopher Nolan",
+                  generos: ["Acción", "Ciencia ficción"],
+                  productora: "Warner Bros",
+                  estado: "viendo",
+                  fecha: "",
+                  puntuacion: null,
+                  comentario: "Muy interesante."
+              },
+              {
+                  titulo: "Titanic",
+                  director: "James Cameron",
+                  generos: ["Drama", "Romance"],
+                  productora: "20th Century",
+                  estado: "visto",
+                  fecha: "2024-03-15",
+                  puntuacion: 4,
+                  comentario: "Un clásico."
+              },
+              {
+                  titulo: "Coco",
+                  director: "Lee Unkrich",
+                  generos: ["Animación", "Musical"],
+                  productora: "Pixar Animation",
+                  estado: "quiero",
+                  fecha: "",
+                  puntuacion: null,
+                  comentario: "Quiero verla después."
+              }
+            ];
+
+            const baseDatosPeliculas = [
+            { 
+                titulo: "Interstellar", director: "Christopher Nolan", generos: ["Ciencia ficción", "Drama", "Aventura"], productora: "Warner Bros", estado: "quiero", fecha: "", puntuacion: null, comentario: "",
+                // agregar imagen
+            },
+            { 
+                titulo: "Midsommar", director: "Ari Aster", generos: ["Terror", "Suspenso"], productora: "A24", estado: "quiero", fecha: "", puntuacion: null, comentario: "",
+                // agregar imagen
+            },
+            { 
+                titulo: "La La Land", director: "Damien Chazelle", generos: ["Musical", "Romance", "Drama"], productora: "Otro", estado: "quiero", fecha: "", puntuacion: null, comentario: "",
+                // agregar imagen"
+            },
+            { 
+                titulo: "Spider-Man: Into the Spider-Verse", director: "Bob Persichetti", generos: ["Animación", "Acción", "Aventura"], productora: "Columbia Pictures", estado: "quiero", fecha: "", puntuacion: null, comentario: "",
+                // agregar imagen
+            },
+            { 
+                titulo: "Se7en", director: "David Fincher", generos: ["Suspenso", "Drama"], productora: "Otro", estado: "quiero", fecha: "", puntuacion: null, comentario: "",
+                // agregar imagen"
+            },
+            { 
+                titulo: "Avengers: Infinity War", director: "Anthony y Joe Russo", generos: ["Acción", "Aventura", "Ciencia ficción"], productora: "Marvel", estado: "quiero", fecha: "", puntuacion: null, comentario: "",
+                // agregar imagen
+            },
+            { 
+                titulo: "Superbad", director: "Greg Mottola", generos: ["Comedia"], productora: "Columbia Pictures", estado: "quiero", fecha: "", puntuacion: null, comentario: "",
+                // agregar imagen
+            },
+            { 
+                titulo: "Aftersun", 
+                director: "Charlotte Wells", 
+                generos: ["Familiar", "Drama", "Otro"], 
+                productora: "A24", 
+                estado: "quiero", 
+                fecha: "", 
+                puntuacion: null, 
+                comentario: "",
+                // agregar imagen
+            },
+            { 
+                titulo: "Hamilton", 
+                director: "Thomas Kail", 
+                generos: ["Musical", "Drama", "Familiar"], 
+                productora: "Disney", 
+                estado: "quiero", 
+                fecha: "", 
+                puntuacion: null, 
+                comentario: "",
+                // agregar imagen
+            }
+        ];
+        return {
+          titulo: "Llevá un registro de tus películas",
+          peliculaArrastrada: null,
+          peliculas: peliculasIniciales,
+          baseDatosPeliculas
+        }
+
+      return {
+          titulo: "Llevá un registro de tus películas",
+          peliculaArrastrada: null,
+          peliculas: peliculasIniciales
+        }
+    },
+      computed: {
+        peliculasRecomendadas() {
+            const misGeneros = this.peliculas.flatMap(peli => peli.generos);
+
+            return this.baseDatosPeliculas.filter(peliBD => {
+                const yaLaTengo = this.peliculas.some(miPeli => miPeli.titulo.toLowerCase() === peliBD.titulo.toLowerCase());
+                if (yaLaTengo) return false;
+                if (misGeneros.length === 0) return true;
+                return peliBD.generos.some(genero => misGeneros.includes(genero));
+            }).slice(0, 3);
+        }
+    },
+
+    watch: { //esta es una función que se ejecuta cada vez que se detecta un cambio en la variable "peliculas"
+        peliculas: {
+            handler(peliculasActualizadas) {
+                localStorage.setItem('mis_peliculas', JSON.stringify(peliculasActualizadas));
+            },
+            deep: true //esto es para que Vue detecte cambios dentro de objetos anidados, como las propiedades de cada película
         }
     },
 
@@ -66,6 +151,17 @@ const app = Vue.createApp({
             if (indice !== -1) {
                 this.peliculas.splice(indice, 1);
             }
+        },
+
+        actualizarPelicula(datos) {
+            const index = this.peliculas.indexOf(datos.original);
+            if (index !== -1) {
+                this.peliculas[index] = datos.nuevo;
+            }
+        },
+        agregarRecomendacionDirecta(peli) {
+            const nuevaPeli = JSON.parse(JSON.stringify(peli));
+            this.peliculas.push(nuevaPeli);
         }
     }
 });
@@ -94,6 +190,7 @@ app.component('mi-formulario', {
                 { texto: 'Romance', dato: 'romance' },
                 { texto: 'Documental', dato: 'documental' },
                 { texto: 'Musical', dato: 'musical' },
+                { texto: 'Familiar', dato: 'familiar' },
                 { texto: 'Otro', dato: 'otro' }
             ],
             productoras: [
@@ -216,6 +313,7 @@ app.component('mi-formulario', {
     }
 });
 
+
 // LISTA DE PELÍCULAS
 app.component('lista-peliculas', {
     props: ['peliculas'],
@@ -226,13 +324,29 @@ app.component('lista-peliculas', {
                 { titulo: 'Viendo ahora', estado: 'viendo' },
                 { titulo: 'Visto', estado: 'visto' },
                 { titulo: 'Quiero ver', estado: 'quiero' }
+            ],
+
+            editandoItem: null, 
+            datosEdicion: {},
+            productoras: [
+                { texto: 'Warner Bros' }, { texto: 'Universal Pictures' },
+                { texto: '20th Century' }, { texto: 'Columbia Pictures' },
+                { texto: 'Disney' }, { texto: 'Pixar Animation' },
+                { texto: 'Marvel' }, { texto: 'Netflix' },
+                { texto: 'A24' }, { texto: 'Otro' }
+            ],
+            generos: [
+                { texto: 'Acción' }, { texto: 'Aventura' }, { texto: 'Comedia' },
+                { texto: 'Drama' }, { texto: 'Terror' }, { texto: 'Suspenso' },
+                { texto: 'Romance' }, { texto: 'Documental' }, { texto: 'Musical' },
+                { texto: 'Otro' }
             ]
         }
     },
 
     template: /*html*/`
         <section class="datos">
-      <h2 class="titulo-seccion">Mis películas</h2>
+      <h2 class="titulo-seccion">MIS PELÍCULAS</h2>
 
       <div v-if="peliculas.length === 0" class="mensaje-vacio">
         <p>Todavía no agregaste ninguna película a tu biblioteca.</p>
@@ -245,54 +359,90 @@ app.component('lista-peliculas', {
           @dragover.prevent
           @drop="$emit('cambiar-estado', columna.estado)"
         >
-            <h3>{{ columna.titulo }}</h3>
 
-            <div
-                class="tarjeta-pelicula"
-                v-for="(item, index) in peliculasPorEstado(columna.estado)"
-                :key="item.titulo + index"
-                draggable="true"
-                @dragstart="$emit('empezar-drag', item)"
-            >
 
-            <button
-            class="btn-eliminar"
-            @click="$emit('eliminar-pelicula', item)"
-            >
-                ×
-            </button>
+      <h3>{{ columna.titulo }}</h3>
 
-            <h4>{{ item.titulo }}</h4>
+        <div
+            class="tarjeta-pelicula"
+            v-for="(item, index) in peliculasPorEstado(columna.estado)"
+            :key="item.titulo + index"
+            draggable="true"
+            @dragstart="$emit('empezar-drag', item)"
+        >
 
-            <p v-if="item.director">
-              <strong>Director:</strong> {{ item.director }}
-            </p>
+        <!-- Edición del usuario -->
+        <div v-if="editandoItem === item" class="modo-edicion">
+            <input type="text" v-model="datosEdicion.titulo" class="input-inline" placeholder="Título" />
 
-            <p>
-              <strong>Géneros:</strong> {{ item.generos.join(', ') || '-' }}
-            </p>
+            <input type="text" v-model="datosEdicion.director" class="input-inline" placeholder="Director" />
 
-            <p><strong>Productora:</strong> {{ item.productora || '-' }}</p>
-
-            <div v-if="item.estado === 'visto'" class="fecha-card-wrap">
-                <label>Vista el</label>
-                <input type="date" v-model="item.fecha" class="fecha-card" />
+            <div class="chips" style="margin-bottom: 8px;">
+                <label class="chip" v-for="genero in generos">
+                    <input
+                        type="checkbox"
+                        v-model="datosEdicion.generos"
+                        :value="genero.texto"
+                    />
+                    <span>{{ genero.texto }}</span>
+                </label>
             </div>
 
-            <div v-if="item.estado === 'visto'" class="rating">
-              <span
-                v-for="n in 5"
-                class="estrella"
-                :class="{ activa: n <= item.puntuacion }"
-                @click="item.puntuacion = n"
-              >
-                ★
-              </span>
-            </div>
+            <select v-model="datosEdicion.productora" class="input-inline">
+                <option disabled value="">Productora</option>
+                <option v-for="p in productoras" :value="p.texto">{{ p.texto }}</option>
+            </select>
 
-            <p v-if="item.comentario">
-              <strong>Comentario:</strong> {{ item.comentario }}
-            </p>
+            <textarea v-model="datosEdicion.comentario" class="input-inline" placeholder="Comentario"></textarea>
+
+            <div class="botones-edicion">
+                <button class="btn-guardar-inline" @click="guardarEdicion">Guardar</button>
+                <button class="btn-cancelar-inline" @click="cancelarEdicion">Cancelar</button>
+            </div>
+        </div>
+        <!-- Termina la edición del usuario -->
+
+        <div v-else>
+        <button
+        class="btn-eliminar"
+        @click="$emit('eliminar-pelicula', item)"
+        >
+            ×
+        </button>
+
+        <button class="btn-editar" @click="iniciarEdicion(item)">✎</button>
+
+      <h4>{{ item.titulo }}</h4>
+        <p v-if="item.director">
+          <strong>Director:</strong> {{ item.director }}
+        </p>
+
+        <p>
+          <strong>Géneros:</strong> {{ item.generos.join(', ') || '-' }}
+        </p>
+
+        <p><strong>Productora:</strong> {{ item.productora || '-' }}</p>
+
+        <div v-if="item.estado === 'visto'" class="fecha-card-wrap">
+            <label>Vista el</label>
+            <input type="date" v-model="item.fecha" class="fecha-card" />
+        </div>
+
+        <div v-if="item.estado === 'visto'" class="rating">
+          <span
+            v-for="n in 5"
+            class="estrella"
+            :class="{ activa: n <= item.puntuacion }"
+            @click="item.puntuacion = n"
+          >
+            ★
+          </span>
+        </div>
+
+        <p v-if="item.comentario">
+          <strong>Comentario:</strong> {{ item.comentario }}
+        </p>
+        </div>
           </div>
         </div>
       </div>
@@ -307,8 +457,49 @@ app.component('lista-peliculas', {
         formatearFecha(fecha) {
             if (!fecha) return '';
             return fecha.split('-').reverse().join('/');
+        },
+
+        iniciarEdicion(item) {
+            this.editandoItem = item;
+            this.datosEdicion = { ...item, generos: [...item.generos] };
+        },
+        guardarEdicion() {
+            this.$emit('guardar-edicion', { original: this.editandoItem, nuevo: this.datosEdicion });
+            this.editandoItem = null;
+            this.datosEdicion = {};
+        },
+        cancelarEdicion() {
+            this.editandoItem = null;
+            this.datosEdicion = {};
         }
     }
+});
+
+app.component('recomendaciones-peliculas', {
+    props: ['recomendaciones'],
+
+    template: /*html*/`
+    <section class="datos seccion-recomendaciones" v-if="recomendaciones.length > 0">
+        <h2 class="titulo-seccion">Recomendadas para vos</h2>
+
+        <div class="columnas-peliculas">
+            <div class="tarjeta-pelicula" v-for="item in recomendaciones" :key="item.titulo">
+                
+                <!-- AGREGAR estilos a clase de poster de película -->
+                <img :src="item.imagen" :alt="'Póster de ' + item.titulo" class="poster-recomendacion" />
+
+                <h4>{{ item.titulo }}</h4>
+                <p v-if="item.director"><strong>Director:</strong> {{ item.director }}</p>
+                <p><strong>Géneros:</strong> {{ item.generos.join(', ') }}</p>
+                <p><strong>Productora:</strong> {{ item.productora }}</p>
+
+                <button class="btn-agregar-rec" @click="$emit('agregar-recomendacion', item)">
+                    + Agregar a Quiero ver
+                </button>
+            </div>
+        </div>
+    </section>
+    `
 });
 
 app.mount('#app');
