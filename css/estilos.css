@@ -217,21 +217,32 @@ input[type="submit"]:active {
 .columna-estado {
     min-height: 400px;
     padding: 24px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-content: start;
+    gap: 16px;
     border-radius: 18px;
     background: #f5f7fa;
     transition: background 0.2s;
 }
 
-.columna-estado:hover {
-    background: #fff0f2;
+.columna-estado h3 {
+    grid-column: 1 / -1;
+    margin: 0;
+    text-align: center;
+    color: #222;
 }
 
 .columna-estado h3 {
+    grid-column: 1 / -1;
     margin: 0 0 20px;
     text-align: center;
     color: #222;
 }
 
+.columna-estado:hover {
+    background: #fff0f2;
+}
 
 /* =========================
    TARJETAS
@@ -239,7 +250,7 @@ input[type="submit"]:active {
 
 .tarjeta-pelicula {
     margin-bottom: 16px;
-    padding: 18px;
+    padding: 12px;
     border-radius: 14px;
     border-left: 5px solid #8f1d2c;
     background: #ffffff;
@@ -269,6 +280,35 @@ input[type="submit"]:active {
 
 .tarjeta-pelicula strong {
     color: #111;
+}
+
+/* =========================
+   POSTER
+========================= */
+
+.poster {
+    width: 100%;
+    aspect-ratio: 2 / 3;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+
+.poster img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.poster-placeholder {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #5a0f1a, #8b1e2d);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 36px;
+    color: white;
 }
 
 /* =========================
@@ -408,6 +448,45 @@ textarea.input-inline {
 }
 .btn-cancelar-inline:hover { background: #ccc; }
 
+.poster-editar {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 2 / 3;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 12px;
+}
+
+.poster-editar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.btn-cambiar-poster {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    width: 34px;
+    height: 34px;
+    margin: 0;
+    border-radius: 50%;
+    background: #000;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.btn-cambiar-poster:hover {
+    background: #8f1d2c;
+}
+
+.btn-cambiar-poster input {
+    display: none;
+}
+
 /* =========================
    SECCIÓN DE RECOMENDACIONES
 ========================= */
@@ -418,9 +497,7 @@ textarea.input-inline {
     background: #5b5ce2;
     color: white;
 }
-.grid-recomendaciones {
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-}
+
 .tarjeta-recomendacion {
     border-left-color: #8f1d2c;
     display: flex;
@@ -444,6 +521,33 @@ textarea.input-inline {
     border-style: solid;
 }
 
+.grid-recomendaciones {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 16px;
+}
+
+.poster-recomendacion {
+    width: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 12px;
+}
+
+.grid-recomendaciones .tarjeta-pelicula {
+    display: flex;
+    flex-direction: column;
+}
+
+.botones-recomendacion {
+    display: flex;
+    gap: 8px;
+    margin-top: auto;
+}
+
+.botones-recomendacion .btn-agregar-rec {
+    margin-top: 0;
+}
 
 /* =========================
    ADAPTACIÓN TABLET
@@ -474,6 +578,10 @@ textarea.input-inline {
 
     .columna-estado {
         min-height: 250px;
+    }
+
+    .grid-recomendaciones {
+        grid-template-columns: repeat(2, 1fr);
     }
 }
 
@@ -524,5 +632,13 @@ textarea.input-inline {
 
     .tarjeta-pelicula {
         padding: 16px;
+    }
+
+    .columna-estado {
+        grid-template-columns: 1fr; /* 1 карточка */
+    }
+
+    .grid-recomendaciones {
+        grid-template-columns: 1fr;
     }
 }
