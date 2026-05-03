@@ -14,7 +14,7 @@ const app = Vue.createApp({
           fecha: "",
           puntuacion: null,
           comentario: "Muy interesante.",
-          imagen: ""
+          imagen: "img/inception_poster.webp"
         },
         {
           titulo: "Titanic",
@@ -25,7 +25,7 @@ const app = Vue.createApp({
           fecha: "2024-03-15",
           puntuacion: 4,
           comentario: "Un clásico.",
-          imagen: ""
+          imagen: "img/titanic_poster.jpg"
         },
         {
           titulo: "Coco",
@@ -36,38 +36,87 @@ const app = Vue.createApp({
           fecha: "",
           puntuacion: null,
           comentario: "Quiero verla después.",
-          imagen: ""
+          imagen: "img/coco_poster.jpg "
         }
       ];
 
     const baseDatosPeliculas = [
       {
-        titulo: "Interstellar", director: "Christopher Nolan", generos: ["Ciencia ficción", "Drama", "Aventura"], productora: "Warner Bros", estado: "quiero", fecha: "", puntuacion: null, comentario: "",
-        imagen: ""
+        titulo: "Interstellar", 
+        director: "Christopher Nolan", 
+        generos: ["Ciencia ficción", "Drama", "Aventura"], 
+        productora: "Warner Bros", 
+        estado: "quiero", 
+        fecha: "", 
+        puntuacion: null, 
+        comentario: "",
+        imagen: "img/interstellar_poster.jpg"
       },
       {
-        titulo: "Midsommar", director: "Ari Aster", generos: ["Terror", "Suspenso"], productora: "A24", estado: "quiero", fecha: "", puntuacion: null, comentario: "",
-        imagen: ""
+        titulo: "Midsommar", 
+        director: "Ari Aster", 
+        generos: ["Terror", "Suspenso"], 
+        productora: "A24", 
+        estado: "quiero", 
+        fecha: "", 
+        puntuacion: null, 
+        comentario: "",
+        imagen: "img/midsommar_poster.jpg"
       },
       {
-        titulo: "La La Land", director: "Damien Chazelle", generos: ["Musical", "Romance", "Drama"], productora: "Otro", estado: "quiero", fecha: "", puntuacion: null, comentario: "",
-        imagen: ""
+        titulo: "La La Land", 
+        director: "Damien Chazelle", 
+        generos: ["Musical", "Romance", "Drama"], 
+        productora: "Otro", 
+        estado: "quiero", 
+        fecha: "", 
+        puntuacion: null, 
+        comentario: "",
+        imagen: "img/la_la_land_poster.jpg"
       },
       {
-        titulo: "Spider-Man: Into the Spider-Verse", director: "Bob Persichetti", generos: ["Animación", "Acción", "Aventura"], productora: "Columbia Pictures", estado: "quiero", fecha: "", puntuacion: null, comentario: "",
-        imagen: ""
+        titulo: "Spider-Man: Into the Spider-Verse", 
+        director: "Bob Persichetti", 
+        generos: ["Animación", "Acción", "Aventura"], 
+        productora: "Columbia Pictures", 
+        estado: "quiero", 
+        fecha: "", 
+        puntuacion: null, 
+        comentario: "",
+        imagen: "img/spiderman_poster.jpg"
       },
       {
-        titulo: "Se7en", director: "David Fincher", generos: ["Suspenso", "Drama"], productora: "Otro", estado: "quiero", fecha: "", puntuacion: null, comentario: "",
-        imagen: ""
+        titulo: "Se7en", 
+        director: "David Fincher", 
+        generos: ["Suspenso", "Drama"], 
+        productora: "Otro", 
+        estado: "quiero", 
+        fecha: "", 
+        puntuacion: null, 
+        comentario: "",
+        imagen: "img/se7en_poster.jpg"
       },
       {
-        titulo: "Avengers: Infinity War", director: "Anthony y Joe Russo", generos: ["Acción", "Aventura", "Ciencia ficción"], productora: "Marvel", estado: "quiero", fecha: "", puntuacion: null, comentario: "",
-        imagen: ""
+        titulo: "Avengers: Infinity War", 
+        director: "Anthony y Joe Russo", 
+        generos: ["Acción", "Aventura", "Ciencia ficción"], 
+        productora: "Marvel", 
+        estado: "quiero", 
+        fecha: "", 
+        puntuacion: null, 
+        comentario: "",
+        imagen: "img/avengers_poster.webp"
       },
       {
-        titulo: "Superbad", director: "Greg Mottola", generos: ["Comedia"], productora: "Columbia Pictures", estado: "quiero", fecha: "", puntuacion: null, comentario: "",
-        imagen: ""
+        titulo: "Superbad", 
+        director: "Greg Mottola", 
+        generos: ["Comedia"], 
+        productora: "Columbia Pictures", 
+        estado: "quiero", 
+        fecha: "", 
+        puntuacion: null, 
+        comentario: "",
+        imagen: "img/superbad_poster.jpg"
       },
       {
         titulo: "Aftersun",
@@ -78,7 +127,7 @@ const app = Vue.createApp({
         fecha: "",
         puntuacion: null,
         comentario: "",
-        imagen: ""
+        imagen: "img/aftersun_poster.jpg"
       },
       {
         titulo: "Hamilton",
@@ -89,11 +138,12 @@ const app = Vue.createApp({
         fecha: "",
         puntuacion: null,
         comentario: "",
-        imagen: ""
+        imagen: "img/hamilton_poster.jpg"
       }
     ];
     return {
-      titulo: "Llevá un registro de tus películas",
+      titulo: "FILMORY",
+      subtitulo: "Llevá un registro de tus películas:",
       peliculaArrastrada: null,
       peliculas: peliculasIniciales,
       baseDatosPeliculas
@@ -173,6 +223,8 @@ const app = Vue.createApp({
 app.component('mi-formulario', {
   data() {
     return {
+      errores: [],
+      registroExitoso: false,
       form_data: {
         titulo: "",
         director: "",
@@ -218,6 +270,17 @@ app.component('mi-formulario', {
 
   template: /*html*/`
     <div class="form">
+      <div v-if="errores.length > 0" class="mensaje-error">
+        <p><strong>¡Ups! Te faltan agunos datos:</strong></p>
+        <ul>
+          <li v-for="error in errores">{{ error }}</li>
+        </ul>
+      </div>
+
+      <div v-if="registroExitoso" class="mensaje-exito">
+        <p>¡Tu película fue registrada con éxito!</p>
+      </div>
+
       <form @submit.prevent="enviar">
         <label>Titulo</label>
         <input
@@ -291,6 +354,18 @@ app.component('mi-formulario', {
 
   methods: {
     enviar() {
+      this.errores = [];
+      this.registroExitoso = false;
+      if (!this.form_data.titulo) {
+        this.errores.push("El título de la película es obligatorio.");
+      }
+      if (!this.form_data.estado) {
+        this.errores.push("Seleccioná en qué estado se encuentra la película.");
+      }
+      if (this.errores.length > 0) {
+        return; 
+      }
+
       const nuevoObj = {
         titulo: this.form_data.titulo,
         director: this.form_data.director,
@@ -316,6 +391,12 @@ app.component('mi-formulario', {
         comentario: "",
         imagen: ""
       };
+
+      this.registroExitoso = true;
+
+      setTimeout(() => {
+        this.registroExitoso = false;
+      }, 3000);
     }
   }
 });
@@ -372,6 +453,7 @@ app.component('lista-peliculas', {
 
         <div
             class="tarjeta-pelicula"
+            v-bind:class="item.puntuacion === 5 ? 'pelicula-favorita' : ''"
             v-for="(item, index) in peliculasPorEstado(columna.estado)"
             :key="item.titulo + index"
             draggable="true"
@@ -438,7 +520,7 @@ app.component('lista-peliculas', {
             class="poster"
         />
 
-      <h4>{{ item.titulo }}</h4>
+      <h4>{{textoMayusculas(item.titulo)}}</h4>
         <p v-if="item.director">
           <strong>Director:</strong> {{ item.director }}
         </p>
@@ -449,10 +531,9 @@ app.component('lista-peliculas', {
 
         <p><strong>Productora:</strong> {{ item.productora || '-' }}</p>
 
-        <div v-if="item.estado === 'visto'" class="fecha-card-wrap">
-            <label>Vista el</label>
-            <input type="date" v-model="item.fecha" class="fecha-card" />
-        </div>
+        <p v-if="item.estado === 'visto' && item.fecha" class="fecha-card-wrap">
+            <strong>Vista el:</strong> {{ formatearFecha(item.fecha) }}
+        </p>
 
         <div v-if="item.estado === 'visto'" class="rating">
           <span
@@ -485,6 +566,11 @@ app.component('lista-peliculas', {
       return fecha.split('-').reverse().join('/');
     },
 
+    textoMayusculas(texto) {
+    if (!texto) return '';
+    return texto.toUpperCase();
+    },
+
     iniciarEdicion(item) {
       this.editandoItem = item;
       this.datosEdicion = { ...item, generos: [...item.generos] };
@@ -514,6 +600,8 @@ app.component('lista-peliculas', {
   }
 });
 
+
+// RECOMENDACIONES DE PELÍCULAS
 app.component('recomendaciones-peliculas', {
   props: ['recomendaciones'],
 
@@ -530,7 +618,7 @@ app.component('recomendaciones-peliculas', {
                   class="poster-recomendacion"
                 />
 
-                <h4>{{ item.titulo }}</h4>
+                <h4>{{textoMayusculas(item.titulo)}}</h4>
                 <p v-if="item.director"><strong>Director:</strong> {{ item.director }}</p>
                 <p><strong>Géneros:</strong> {{ item.generos.join(', ') }}</p>
                 <p><strong>Productora:</strong> {{ item.productora }}</p>
@@ -541,13 +629,20 @@ app.component('recomendaciones-peliculas', {
                 </button>
 
     <button class="btn-agregar-rec" @click="$emit('agregar-recomendacion', item, 'visto')">
-        ✓ Ya la vi
+        ✓ Ya la ví
     </button>
 </div>
             </div>
         </div>
     </section>
-    `
+    `,
+
+    methods: {
+    textoMayusculas(texto) {
+      if (!texto) return '';
+      return texto.toUpperCase();
+    }
+  }
 });
 
 app.mount('#app');
