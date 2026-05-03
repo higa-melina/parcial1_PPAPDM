@@ -282,7 +282,7 @@ app.component('mi-formulario', {
       </div>
 
       <form @submit.prevent="enviar">
-        <label>Titulo</label>
+        <label>Titulo <span class="obligatorio">*</span> </label>
         <input
           type="text"
           v-model="form_data.titulo"
@@ -316,7 +316,7 @@ app.component('mi-formulario', {
           </option>
         </select>
 
-        <label>Estado</label>
+        <label>Estado <span class="obligatorio">*</span> </label>
         <select v-model="form_data.estado">
           <option disabled value="">Seleccionar</option>
           <option v-for="estado in estados" :value="estado.dato">
@@ -332,15 +332,15 @@ app.component('mi-formulario', {
 
           <div class="rating">
             <span
-  v-for="n in 5"
-  class="estrella"
-  :class="n <= form_data.puntuacion ? 'activa' : ''"
-  @click="form_data.puntuacion === n 
-    ? form_data.puntuacion = null 
-    : form_data.puntuacion = n"
->
-  ★
-</span>
+              v-for="n in 5"
+              class="estrella"
+              :class="n <= form_data.puntuacion ? 'activa' : ''"
+              @click="form_data.puntuacion === n 
+                ? form_data.puntuacion = null 
+                : form_data.puntuacion = n"
+            >
+              ★
+            </span>
           </div>
         </div>
 
