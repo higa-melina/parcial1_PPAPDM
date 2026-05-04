@@ -50,7 +50,7 @@ const app = Vue.createApp({
         fecha: "", 
         puntuacion: null, 
         comentario: "",
-        imagen: "img/interstellar_poster.webp"
+        imagen: "img/interstellar_poster.jpg"
       },
       {
         titulo: "Midsommar", 
@@ -465,7 +465,7 @@ app.component('lista-peliculas', {
 
         <div class="poster-editar">
           <img
-            :src="datosEdicion.imagen || 'img/card-poster.png'"
+            :src="datosEdicion.imagen || 'img/card-poster.jpg'"
             alt="Póster de la película"
           />
 
@@ -515,7 +515,7 @@ app.component('lista-peliculas', {
         <button class="btn-editar" @click="iniciarEdicion(item)">✎</button>
 
         <img
-            :src="item.imagen || 'img/card-poster.png'"
+            :src="item.imagen || 'img/card-poster.jpg'"
             :alt="'Póster de ' + item.titulo"
             class="poster"
         />
@@ -613,7 +613,7 @@ app.component('recomendaciones-peliculas', {
             <div class="tarjeta-pelicula" v-for="item in recomendaciones" :key="item.titulo">
                 
                 <img
-                  :src="item.imagen || 'img/card-poster.png'"
+                  :src="item.imagen || 'img/card-poster.jpg'"
                   :alt="'Póster de ' + item.titulo"
                   class="poster-recomendacion"
                 />
