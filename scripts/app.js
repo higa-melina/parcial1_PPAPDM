@@ -50,7 +50,7 @@ const app = Vue.createApp({
         fecha: "", 
         puntuacion: null, 
         comentario: "",
-        imagen: "img/interstellar_poster.jpg"
+        imagen: "img/interstellar_poster.webp"
       },
       {
         titulo: "Midsommar", 
